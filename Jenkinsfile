@@ -25,20 +25,20 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
-            steps {
-                script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                    sh "docker tag ${DOCKER_IMAGE} docker.io/${DOCKER_REPO}/${DOCKER_IMAGE}"
+        // stage('Docker Build & Push') {
+        //     steps {
+        //         script {
+        //             sh "docker build -t ${DOCKER_IMAGE} ."
+        //             sh "docker tag ${DOCKER_IMAGE} docker.io/${DOCKER_REPO}/${DOCKER_IMAGE}"
 
-                    withCredentials([string(credentialsId: 'dockerhub-password', variable: 'DOCKER_PASSWORD')]) {
-                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_REPO} --password-stdin"
-                    }
+        //             withCredentials([string(credentialsId: 'dockerhub-password', variable: 'DOCKER_PASSWORD')]) {
+        //                 sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_REPO} --password-stdin"
+        //             }
 
-                    sh "docker push docker.io/${DOCKER_REPO}/${DOCKER_IMAGE}"
-                }
-            }
-        }
+        //             sh "docker push docker.io/${DOCKER_REPO}/${DOCKER_IMAGE}"
+        //         }
+        //     }
+        // }
 
         stage('Deploy to OpenShift') {
             steps {

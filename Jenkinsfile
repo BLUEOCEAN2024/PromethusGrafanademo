@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/BLUEOCEAN2024/PromethusGrafanademo.git'
+                git url: 'https://github.com/BLUEOCEAN2024/PromethusGrafanademo.git' , branch: 'main'
             }
         }
 

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'M3' // Must be configured in Jenkins Global Tools
+        maven 'M3'
     }
 
     environment {
@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/BLUEOCEAN2024/PromethusGrafanademo.git' , branch: 'main'
+                git url: 'https://github.com/BLUEOCEAN2024/PromethusGrafanademo.git', branch: 'main'
             }
         }
 
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'openshift-token', variable: 'OC_TOKEN')]) {
                     sh """
-                    oc login ${OPENSHIFT_SERVER} --token=${OC_TOKEN}
+                    oc login ${OPENSHIFT_SERVER} --token=${OC_TOKEN} --insecure-skip-tls-verify=true
                     oc project ${OPENSHIFT_PROJECT}
                     oc set image deployment/${DOCKER_IMAGE} ${DOCKER_IMAGE}=docker.io/${DOCKER_REPO}/${DOCKER_IMAGE} --record
                     """
